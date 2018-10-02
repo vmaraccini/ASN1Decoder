@@ -16,6 +16,7 @@
 		412A9E591F55C6830099110C /* X509Certificate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 412A9E551F55C6830099110C /* X509Certificate.swift */; };
 		41B11CD1202E16060009670B /* PKCS7_AppleReceipt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B11CD0202E16060009670B /* PKCS7_AppleReceipt.swift */; };
 		41D14FE31F58C15A0058DE7A /* PKCS7.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D14FE21F58C1590058DE7A /* PKCS7.swift */; };
+		D4BFF228216412880050FD38 /* ANS1PublicKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BFF227216412880050FD38 /* ANS1PublicKey.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +43,7 @@
 		414F5E2C1F55EFB700449E72 /* ASN1Decoder.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = ASN1Decoder.podspec; sourceTree = "<group>"; };
 		41B11CD0202E16060009670B /* PKCS7_AppleReceipt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PKCS7_AppleReceipt.swift; sourceTree = "<group>"; };
 		41D14FE21F58C1590058DE7A /* PKCS7.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PKCS7.swift; sourceTree = "<group>"; };
+		D4BFF227216412880050FD38 /* ANS1PublicKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ANS1PublicKey.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +92,7 @@
 				412A9E531F55C6830099110C /* ASN1Identifier.swift */,
 				412A9E541F55C6830099110C /* ASN1Object.swift */,
 				412A9E551F55C6830099110C /* X509Certificate.swift */,
+				D4BFF227216412880050FD38 /* ANS1PublicKey.swift */,
 				41D14FE21F58C1590058DE7A /* PKCS7.swift */,
 				41B11CD0202E16060009670B /* PKCS7_AppleReceipt.swift */,
 				412A9E3C1F55C6500099110C /* Info.plist */,
@@ -220,6 +223,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				41D14FE31F58C15A0058DE7A /* PKCS7.swift in Sources */,
+				D4BFF228216412880050FD38 /* ANS1PublicKey.swift in Sources */,
 				412A9E581F55C6830099110C /* ASN1Object.swift in Sources */,
 				41B11CD1202E16060009670B /* PKCS7_AppleReceipt.swift in Sources */,
 				412A9E591F55C6830099110C /* X509Certificate.swift in Sources */,

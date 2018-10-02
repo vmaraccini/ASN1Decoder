@@ -84,7 +84,6 @@ public class ASN1Object : CustomStringConvertible {
         return output
     }
 
-
     static let oidDecodeMap:[String:String] = [
         "0.4.0.1862.1.1" : "etsiQcsCompliance",
         "0.4.0.1862.1.3" : "etsiQcsRetentionPeriod",
