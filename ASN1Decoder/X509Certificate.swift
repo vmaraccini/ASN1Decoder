@@ -226,8 +226,8 @@ public class X509Certificate: CustomStringConvertible {
     }
 
     /// Gets the informations of the public key from this certificate.
-    public var publicKey: PublicKey? {
-        return block1[X509BlockPosition.publicKey].map(PublicKey.init)
+    public var publicKey: ANS1PublicKey? {
+        return block1[X509BlockPosition.publicKey].map(ANS1PublicKey.init)
     }
 
     /// Get a list of critical extension OID codes
@@ -320,54 +320,6 @@ public class X509Certificate: CustomStringConvertible {
             if let derDataDecoded = Data(base64Encoded: base64buffer) {
                 derData = derDataDecoded
             }
-        }
-    }
-}
-
-public class PublicKey {
-    private let OID_ECPublicKey = "1.2.840.10045.2.1"
-    private let OID_RSAEncryption = "1.2.840.113549.1.1.1"
-
-    var pkBlock: ASN1Object!
-
-    init(pkBlock: ASN1Object) {
-        self.pkBlock = pkBlock
-    }
-
-    public var algOid: String? {
-        return pkBlock.sub(0)?.sub(0)?.value as? String
-    }
-
-    public var algName: String? {
-        return ASN1Object.oidDecodeMap[algOid ?? ""]
-    }
-
-    public var algParams: String? {
-        return pkBlock.sub(0)?.sub(1)?.value as? String
-    }
-
-    public var key: Data? {
-        guard
-            let algOid = algOid,
-            let keyData = pkBlock.sub(1)?.value as? Data else {
-                return nil
-        }
-
-        switch algOid {
-        case OID_ECPublicKey:
-            return keyData
-
-        case OID_RSAEncryption:
-            guard let publicKeyAsn1Objects = (try? ASN1DERDecoder.decode(data: keyData)) else {
-                return nil
-            }
-            guard let publicKeyModulus = publicKeyAsn1Objects.first?.sub(0)?.value as? Data else {
-                return nil
-            }
-            return publicKeyModulus
-
-        default:
-            return nil
         }
     }
 }
