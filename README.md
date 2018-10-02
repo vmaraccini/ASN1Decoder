@@ -1,4 +1,4 @@
-# ASN1Decoder
+# ASN1Decoder [![Build Status](https://travis-ci.com/vmaraccini/ASN1Decoder.svg?branch=master)](https://travis-ci.com/vmaraccini/ASN1Decoder)
 ASN1 DER Decoder for X.509 Certificate
 
 ## Requirements
