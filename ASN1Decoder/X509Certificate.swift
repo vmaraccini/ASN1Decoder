@@ -352,7 +352,8 @@ public class X509Extension {
     }
 
     var valueAsStrings: [String] {
-        return block.sub?.last?.sub?.compactMap { $0.value as? String } ?? []
+        let flat = (block.sub?.last?.sub ?? []) + (block.sub?.last?.sub?.last?.sub ?? [])
+        return flat.compactMap { $0.value as? String }
     }
 }
 
