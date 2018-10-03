@@ -95,10 +95,7 @@ public class X509Certificate: CustomStringConvertible {
 
     /// Returns the issuer (issuer distinguished name) value from the certificate as a String.
     public var issuerDistinguishedName: String? {
-        if let issuerBlock = block1[X509BlockPosition.issuer] {
-            return blockDistinguishedName(block: issuerBlock)
-        }
-        return nil
+        return block1[X509BlockPosition.issuer].map(blockDistinguishedName(block:))
     }
 
     public var issuerOIDs: [String] {
@@ -124,10 +121,7 @@ public class X509Certificate: CustomStringConvertible {
 
     /// Returns the subject (subject distinguished name) value from the certificate as a String.
     public var subjectDistinguishedName: String? {
-        if let subjectBlock = block1[X509BlockPosition.subject] {
-            return blockDistinguishedName(block: subjectBlock)
-        }
-        return nil
+        return block1[X509BlockPosition.subject].map(blockDistinguishedName(block:))
     }
 
     public var subjectOIDs: [String] {
@@ -217,8 +211,7 @@ public class X509Certificate: CustomStringConvertible {
 
     /// Gets a collection of subject alternative names from the SubjectAltName extension, (OID = 2.5.29.17).
     public var subjectAlternativeNames: [String] {
-        guard let nodeArray = extensionObject(oid: OID_SubjectAltName)?.block.sub?.last else { return [] }
-        return X509Extension(block: nodeArray).valueAsStrings
+        return extensionObject(oid: OID_SubjectAltName)?.valueAsStrings ?? []
     }
 
     /// Gets a collection of issuer alternative names from the IssuerAltName extension, (OID = 2.5.29.18).
