@@ -15,3 +15,6 @@ script:
 
   # Build Framework in Debug and Run Tests
   - xcodebuild -project "$PROJECT" -scheme "$SCHEME" -destination "$DESTINATION" -configuration Debug ONLY_ACTIVE_ARCH=NO ENABLE_TESTABILITY=YES test | xcpretty;
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
