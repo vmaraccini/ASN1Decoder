@@ -217,7 +217,8 @@ public class X509Certificate: CustomStringConvertible {
 
     /// Gets a collection of subject alternative names from the SubjectAltName extension, (OID = 2.5.29.17).
     public var subjectAlternativeNames: [String] {
-        return extensionObject(oid: OID_SubjectAltName)?.valueAsStrings ?? []
+        guard let nodeArray = extensionObject(oid: OID_SubjectAltName)?.block.sub?.last else { return [] }
+        return X509Extension(block: nodeArray).valueAsStrings
     }
 
     /// Gets a collection of issuer alternative names from the IssuerAltName extension, (OID = 2.5.29.18).
@@ -358,13 +359,7 @@ public class X509Extension {
     }
 
     var valueAsStrings: [String] {
-        var result: [String] = []
-        for item in block.sub?.last?.sub ?? [] {
-            if let name = item.value as? String {
-                result.append(name)
-            }
-        }
-        return result
+        return block.sub?.last?.sub?.compactMap { $0.value as? String } ?? []
     }
 }
 
