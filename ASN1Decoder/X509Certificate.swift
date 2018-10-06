@@ -384,3 +384,10 @@ extension ASN1Object {
         return sub[index.rawValue]
     }
 }
+
+extension X509Certificate: Equatable {
+    public static func == (lhs: X509Certificate, rhs: X509Certificate) -> Bool {
+        return lhs.block1 == rhs.block1
+            && lhs.asn1 == rhs.asn1
+    }
+}
