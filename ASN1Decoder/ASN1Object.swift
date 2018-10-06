@@ -23,7 +23,7 @@
 
 import Foundation
 
-public class ASN1Object : CustomStringConvertible {
+public class ASN1Object: CustomStringConvertible {
     /// This property contains the DER encoded object
     public var rawValue: Data?
 
@@ -69,18 +69,18 @@ public class ASN1Object : CustomStringConvertible {
     fileprivate func printAsn1(insets: String = "") -> String {
         var output = insets
         output.append(identifier?.description.uppercased() ?? "")
-        output.append(value != nil ? " : \(value!)" : "")
+        output.append(value.map { "\($0)" } ?? "")
         if identifier?.typeClass() == .universal, identifier?.tagNumber() == .objectIdentifier {
             if let descr = ASN1Object.oidDecodeMap[value as? String ?? ""] {
                 output.append(" (\(descr))")
             }
         }
-        output.append(sub != nil && sub!.count > 0 ? " {" : "")
+        output.append((sub?.count ?? 0) > 0 ? " {" : "")
         output.append("\n")
         for item in sub ?? [] {
             output.append(item.printAsn1(insets: insets + "    "))
         }
-        output.append(sub != nil && sub!.count > 0 ? insets + "}\n" : "")
+        output.append((sub?.count ?? 0) > 0 ? insets + "}\n" : "")
         return output
     }
 
@@ -144,4 +144,12 @@ public class ASN1Object : CustomStringConvertible {
         "2.5.4.8" : "stateOrProvinceName",
         "2.5.4.9" : "streetAddress"
     ]
+}
+
+extension ASN1Object: Equatable {
+    public static func == (lhs: ASN1Object, rhs: ASN1Object) -> Bool {
+        return lhs.rawValue == rhs.rawValue
+            && lhs.identifier == rhs.identifier
+            && lhs.sub == rhs.sub
+    }
 }
