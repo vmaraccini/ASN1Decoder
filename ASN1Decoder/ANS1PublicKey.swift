@@ -12,7 +12,7 @@ public class ANS1PublicKey {
     private let OID_ECPublicKey = "1.2.840.10045.2.1"
     private let OID_RSAEncryption = "1.2.840.113549.1.1.1"
 
-    var pkBlock: ASN1Object!
+    let pkBlock: ASN1Object
 
     init(pkBlock: ASN1Object) {
         self.pkBlock = pkBlock
