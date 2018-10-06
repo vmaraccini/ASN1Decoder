@@ -182,11 +182,6 @@ public class X509Certificate: CustomStringConvertible {
         return block1.sub(2)?.sub(0)?.value as? String
     }
 
-    /// Gets the DER-encoded signature algorithm parameters from this certificate's signature algorithm.
-    public var sigAlgParams: Data? {
-        return nil
-    }
-
     /**
      Gets a boolean array representing bits of the KeyUsage extension, (OID = 2.5.29.15).
      ```
