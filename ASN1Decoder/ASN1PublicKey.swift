@@ -1,5 +1,5 @@
 //
-//  ANS1PublicKey.swift
+//  ASN1PublicKey.swift
 //  ASN1Decoder
 //
 //  Created by Victor Maraccini on 02/10/18.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class ANS1PublicKey {
+public class ASN1PublicKey {
     private let OID_ECPublicKey = "1.2.840.10045.2.1"
     private let OID_RSAEncryption = "1.2.840.113549.1.1.1"
 
