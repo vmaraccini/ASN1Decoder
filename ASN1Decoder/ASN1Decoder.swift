@@ -34,33 +34,36 @@ public class ASN1DERDecoder {
 
         while let nextValue = iterator.next() {
             let asn1obj = ASN1Object()
-            asn1obj.identifier = ASN1Identifier(rawValue: nextValue)
+            let identifier = ASN1Identifier(rawValue: nextValue)
+            asn1obj.identifier = identifier
 
-            if asn1obj.identifier!.isConstructed() {
+            if identifier.isConstructed() {
 
                 let contentData = try loadSubContent(iterator: &iterator)
-                
+
+                let sub: [ASN1Object]
                 if contentData.isEmpty {
-                    asn1obj.sub = try parse(iterator: &iterator)
+                    sub = try parse(iterator: &iterator)
                 } else {
                     var subIterator = contentData.makeIterator()
-                    asn1obj.sub = try parse(iterator: &subIterator)
+                    sub = try parse(iterator: &subIterator)
                 }
-                
+
+                asn1obj.sub = sub
                 asn1obj.value = nil
                 
                 asn1obj.rawValue = Data(contentData)
                 
-                for item in asn1obj.sub! {
+                for item in sub {
                     item.parent = asn1obj
                 }
             } else {
-                if asn1obj.identifier!.typeClass() == .universal {
+                if identifier.typeClass() == .universal {
                     var contentData = try loadSubContent(iterator: &iterator)
                     asn1obj.rawValue = Data(contentData)
 
                     // decode the content data with come more convenient format
-                    switch asn1obj.identifier!.tagNumber() {
+                    switch identifier.tagNumber() {
 
                     case .endOfContent:
                         return result
@@ -126,7 +129,7 @@ public class ASN1DERDecoder {
                         }
 
                     default:
-                        print("unsupported tag: \(asn1obj.identifier!.tagNumber())")
+                        print("unsupported tag: \(identifier.tagNumber())")
                         asn1obj.value = contentData
                         break
                     }
@@ -149,14 +152,12 @@ public class ASN1DERDecoder {
     
     // Decode the number of bytes of the content
     private static func getContentLength(iterator: inout Data.Iterator) -> UInt64 {
-        let first = iterator.next()
-        
-        guard first != nil else {
+        guard let first = iterator.next() else {
             return 0
         }
         
-        if (first! & 0x80) != 0 { // long
-            let octetsToRead = first! - 0x80
+        if (first & 0x80) != 0 { // long
+            let octetsToRead = first - 0x80
             var data = Data()
             for _ in 0..<octetsToRead {
                 if let n = iterator.next() {
@@ -166,11 +167,10 @@ public class ASN1DERDecoder {
 
             return data.toIntValue() ?? 0
         } else { // short
-            return UInt64(first!)
+            return UInt64(first)
         }
     }
 
-    
     private static func loadSubContent(iterator: inout Data.Iterator) throws -> Data  {
         let len = getContentLength(iterator: &iterator)
         guard len < Int.max else {
