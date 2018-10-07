@@ -99,3 +99,9 @@ public class ASN1Identifier: CustomStringConvertible {
         }
     }
 }
+
+extension ASN1Identifier: Equatable {
+    public static func == (lhs: ASN1Identifier, rhs: ASN1Identifier) -> Bool {
+        return lhs.rawValue == rhs.rawValue
+    }
+}

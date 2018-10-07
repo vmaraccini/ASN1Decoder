@@ -26,10 +26,9 @@ import Foundation
 public class X509Certificate: CustomStringConvertible {
     private let asn1: [ASN1Object]
     private let block1: ASN1Object
-    private var derData: Data?
 
-    private let beginPemBlock = "-----BEGIN CERTIFICATE-----"
-    private let endPemBlock   = "-----END CERTIFICATE-----"
+    private static let beginPemBlock = "-----BEGIN CERTIFICATE-----"
+    private static let endPemBlock   = "-----END CERTIFICATE-----"
 
     private let OID_KeyUsage = "2.5.29.15"
     private let OID_ExtendedKeyUsage = "2.5.29.37"
@@ -47,17 +46,30 @@ public class X509Certificate: CustomStringConvertible {
         case extensions = 7
     }
 
-    public init(data: Data) throws {
-        derData = data
+    public convenience init(data: Data) throws {
+        if String(data: data, encoding: .utf8)?.contains(X509Certificate.beginPemBlock) ?? false {
+            try self.init(pem: data)
+        } else {
+            try self.init(der: data)
+        }
+    }
 
-        asn1 = try ASN1DERDecoder.decode(data: data)
+    public init(der: Data) throws {
+        asn1 = try ASN1DERDecoder.decode(data: der)
         guard asn1.count > 0,
             let block1 = asn1.first?.sub(0) else {
                 throw ASN1Error.parseError
         }
-        self.block1 = block1
 
-        decodePemToDer()
+        self.block1 = block1
+    }
+
+    public convenience init(pem: Data) throws {
+        guard let derData = X509Certificate.decodeToDER(pem: pem) else {
+            throw ASN1Error.parseError
+        }
+
+        try self.init(der: derData)
     }
 
     init(asn1: ASN1Object) throws {
@@ -170,11 +182,6 @@ public class X509Certificate: CustomStringConvertible {
         return block1.sub(2)?.sub(0)?.value as? String
     }
 
-    /// Gets the DER-encoded signature algorithm parameters from this certificate's signature algorithm.
-    public var sigAlgParams: Data? {
-        return nil
-    }
-
     /**
      Gets a boolean array representing bits of the KeyUsage extension, (OID = 2.5.29.15).
      ```
@@ -220,8 +227,8 @@ public class X509Certificate: CustomStringConvertible {
     }
 
     /// Gets the informations of the public key from this certificate.
-    public var publicKey: ANS1PublicKey? {
-        return block1[X509BlockPosition.publicKey].map(ANS1PublicKey.init)
+    public var publicKey: ASN1PublicKey? {
+        return block1[X509BlockPosition.publicKey].map(ASN1PublicKey.init)
     }
 
     /// Get a list of critical extension OID codes
@@ -291,10 +298,9 @@ public class X509Certificate: CustomStringConvertible {
     }
 
     // read possibile PEM encoding
-    private func decodePemToDer() {
+    private static func decodeToDER(pem pemData: Data) -> Data? {
         if
-            let data = self.derData,
-            let pem = String(data: data, encoding: .ascii),
+            let pem = String(data: pemData, encoding: .ascii),
             pem.contains(beginPemBlock) {
 
             let lines = pem.components(separatedBy: .newlines)
@@ -312,9 +318,11 @@ public class X509Certificate: CustomStringConvertible {
                 }
             }
             if let derDataDecoded = Data(base64Encoded: base64buffer) {
-                derData = derDataDecoded
+                return derDataDecoded
             }
         }
+
+        return nil
     }
 }
 
@@ -369,5 +377,12 @@ extension ASN1Object {
         guard let sub = sub,
             sub.indices.contains(index.rawValue) else { return nil }
         return sub[index.rawValue]
+    }
+}
+
+extension X509Certificate: Equatable {
+    public static func == (lhs: X509Certificate, rhs: X509Certificate) -> Bool {
+        return lhs.block1 == rhs.block1
+            && lhs.asn1 == rhs.asn1
     }
 }
