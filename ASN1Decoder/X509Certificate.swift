@@ -24,8 +24,8 @@
 import Foundation
 
 public class X509Certificate: CustomStringConvertible {
-    private let asn1: [ASN1Object]
-    private let block1: ASN1Object
+    fileprivate let asn1: [ASN1Object]
+    fileprivate let block1: ASN1Object
 
     private static let beginPemBlock = "-----BEGIN CERTIFICATE-----"
     private static let endPemBlock   = "-----END CERTIFICATE-----"
