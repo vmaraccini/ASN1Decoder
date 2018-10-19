@@ -25,11 +25,11 @@ public enum SubjectAlternativeNamesIdentifier: UInt8, ASN1ContextSpecificIdentif
      */
     case otherName = 0
     case rfc822Name
-    case dNSName
+    case dnsName
     case x400Address
     case directoryName
     case ediPartyName
     case uniformResourceIdentifier
-    case iPAddress
+    case ipAddress
     case registeredID
 }
