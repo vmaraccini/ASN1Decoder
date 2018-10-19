@@ -17,6 +17,7 @@
 		41D14FE31F58C15A0058DE7A /* PKCS7.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D14FE21F58C1590058DE7A /* PKCS7.swift */; };
 		D4BFF228216412880050FD38 /* ASN1PublicKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BFF227216412880050FD38 /* ASN1PublicKey.swift */; };
 		D4BFF22A21641B450050FD38 /* X509CertificateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BFF22921641B450050FD38 /* X509CertificateTests.swift */; };
+		D4E3AF81217A595300E79F8D /* ASN1ContextSpecificIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E3AF80217A595300E79F8D /* ASN1ContextSpecificIdentifier.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +45,7 @@
 		41D14FE21F58C1590058DE7A /* PKCS7.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PKCS7.swift; sourceTree = "<group>"; };
 		D4BFF227216412880050FD38 /* ASN1PublicKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASN1PublicKey.swift; sourceTree = "<group>"; };
 		D4BFF22921641B450050FD38 /* X509CertificateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = X509CertificateTests.swift; sourceTree = "<group>"; };
+		D4E3AF80217A595300E79F8D /* ASN1ContextSpecificIdentifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ASN1ContextSpecificIdentifier.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +89,7 @@
 		412A9E3A1F55C6500099110C /* ASN1Decoder */ = {
 			isa = PBXGroup;
 			children = (
+				D4E3AF80217A595300E79F8D /* ASN1ContextSpecificIdentifier.swift */,
 				412A9E3B1F55C6500099110C /* ASN1Decoder.h */,
 				412A9E521F55C6830099110C /* ASN1Decoder.swift */,
 				412A9E531F55C6830099110C /* ASN1Identifier.swift */,
@@ -229,6 +232,7 @@
 				412A9E591F55C6830099110C /* X509Certificate.swift in Sources */,
 				412A9E561F55C6830099110C /* ASN1Decoder.swift in Sources */,
 				412A9E571F55C6830099110C /* ASN1Identifier.swift in Sources */,
+				D4E3AF81217A595300E79F8D /* ASN1ContextSpecificIdentifier.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
