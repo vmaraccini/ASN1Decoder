@@ -41,13 +41,15 @@ class X509CertificateTests: XCTestCase {
     }
 
     func testParsingAnternativeNames() throws {
-        XCTAssertEqual(try x509().subjectAlternativeNames, ["www.digicert.com",
-                                                            "digicert.com",
-                                                            "content.digicert.com",
-                                                            "www.origin.digicert.com",
-                                                            "login.digicert.com",
-                                                            "api.digicert.com",
-                                                            "ws.digicert.com"])
+        let objects = try x509().subjectAlternativeNames
+        objects.forEach { XCTAssertEqual($0.identifier, .dNSName) }
+        XCTAssertEqual(objects.map { $0.value }, ["www.digicert.com",
+                                                  "digicert.com",
+                                                  "content.digicert.com",
+                                                  "www.origin.digicert.com",
+                                                  "login.digicert.com",
+                                                  "api.digicert.com",
+                                                  "ws.digicert.com"])
     }
 
     func testParsingNotAfter() throws {

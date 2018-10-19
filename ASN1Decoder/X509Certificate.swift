@@ -217,8 +217,12 @@ public class X509Certificate: CustomStringConvertible {
     }
 
     /// Gets a collection of subject alternative names from the SubjectAltName extension, (OID = 2.5.29.17).
-    public var subjectAlternativeNames: [String] {
-        return extensionObject(oid: OID_SubjectAltName)?.valueAsStrings ?? []
+    public var subjectAlternativeNames: [(identifier: SubjectAlternativeNamesIdentifier, value: String)] {
+        return extensionObject(oid: OID_SubjectAltName)?.block.sub?.last?.sub?.last?.sub?.compactMap {
+            guard let identifier: SubjectAlternativeNamesIdentifier = $0.identifier?.contextualIdentifier(),
+                let value = $0.value as? String else { return nil }
+            return (identifier, value)
+        } ?? []
     }
 
     /// Gets a collection of issuer alternative names from the IssuerAltName extension, (OID = 2.5.29.18).
