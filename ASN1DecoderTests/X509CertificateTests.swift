@@ -42,7 +42,7 @@ class X509CertificateTests: XCTestCase {
 
     func testParsingAnternativeNames() throws {
         let objects = try x509().subjectAlternativeNames
-        objects.forEach { XCTAssertEqual($0.identifier, .dNSName) }
+        objects.forEach { XCTAssertEqual($0.identifier, .dnsName) }
         XCTAssertEqual(objects.map { $0.value }, ["www.digicert.com",
                                                   "digicert.com",
                                                   "content.digicert.com",
