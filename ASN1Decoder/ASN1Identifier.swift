@@ -90,6 +90,10 @@ public class ASN1Identifier: CustomStringConvertible {
         return TagNumber(rawValue: rawValue & 0x1F) ?? .endOfContent
     }
 
+    func contextualIdentifier<T: ASN1ContextSpecificIdentifier>() -> T? {
+        return T(rawValue: self.tagNumber().rawValue)
+    }
+
     public var description: String {
         if typeClass() == .universal {
             return String(describing: tagNumber())
